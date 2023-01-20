@@ -4,3 +4,5 @@
 .Ruserdata
 archive
 data
+draft
+*.sqlite
