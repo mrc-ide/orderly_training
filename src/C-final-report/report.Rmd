@@ -38,3 +38,7 @@ The figure below shows the trends over time. Overall we note a drop in coverage 
 ```{r, fig.cap="Coverage over time by disease. Data is shown in points, trend line is shown with a line and ribbon."}
 knitr::include_graphics("coverage.png")
 ```
+
+# Conclusion
+
+There is a notable drop in coverage for years 2020-2021, it is too soon to say when recovery to pre-disruption levels will be achieved. However, for green fever there was a decline in achieved coverage for the years up to the disruption and the overall coverage for blue fever had stagnated. 
