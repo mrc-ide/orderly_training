@@ -12,7 +12,7 @@ df <- df %>% janitor::clean_names()
 df <- df %>% mutate(date = as.Date(date))
 
 #get coverage in same format for both yf and measles
-df <-  df %>% mutate(yf_coverage = yf_coverage/100)
+df <-  df %>% mutate(gf_coverage = gf_coverage/100)
 
 # make long
 df <- df %>%
