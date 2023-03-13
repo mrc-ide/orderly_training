@@ -108,7 +108,7 @@ packages:
 # referenced in "views" or "data"
 #
 resources:
-  - data_received/data_20230120.xlsx
+  - data_received/data_20240120.xlsx
 
 # Optional name of a variable to make the SQL connection available to
 # the script.  Use this with care and avoid using any queries that
