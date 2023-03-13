@@ -61,7 +61,7 @@ resources:
 
 
 depends:
-  B-data-analysis:
+  data-analysis:
     id: latest
     use: 
       summary_cov_stat.rds: summary_cov_stat.rds

@@ -142,7 +142,7 @@ packages:
 #           other-data.csv: data.csv
 #
 depends:
-  A-data-cleaning:
+  data-cleaning:
     id: latest
     use: 
       cleaned_data.rds: cleaned_data.rds
