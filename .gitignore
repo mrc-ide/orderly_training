@@ -6,3 +6,4 @@ archive
 data
 draft
 *.sqlite
+orderly_envir.yml
