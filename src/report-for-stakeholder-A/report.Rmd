@@ -14,7 +14,7 @@ set_flextable_defaults(fonts_ignore=TRUE)
 
 # Introduction
 
-In this report we summarise and analyse the vaccination coverage for blue fever and green fever, denoted BF and GF respectively. The analysis was commissioned by WHAT on `r Sys.Date()`.
+In this report we summarise and analyse the vaccination coverage for blue fever, green fever and orange fever, denoted BF, GF and OF respectively. The analysis was commissioned by stakeholders on `r Sys.Date()`.
 
 # Summary
 
@@ -22,8 +22,10 @@ In this report we summarise and analyse the vaccination coverage for blue fever 
 df <- readRDS("summary_cov_stat.rds")
 
 df %>%
-  mutate(disease = ifelse(disease=="bf", "Blue fever", 
-                          ifelse(disease=="gf", "Green fever", NA))) %>%
+  mutate(disease = case_when(disease=="bf"~"Blue fever",
+                             disease=="gf"~"Green fever",
+                             disease=="of"~"Orange fever",
+                             disease=="pf"~"Pink fever")) %>%
   rename(Disease = disease, `Minimun coverage`=min_cov,
          `Maximum coverage`=max_cov, 
          `Mean coverage`=mean_cov) %>%
@@ -35,7 +37,7 @@ In the table above we summarise the data ranges and mean. We note that `r df$dis
 
 # Temporal trends
 
-The figure below shows the trends over time. Overall we note a drop in coverage in 2020 and 2021 as well as some stagnation before then. BF had consistently higher coverage than GF.
+The figure below shows the trends over time. Overall we note a drop in coverage in 2020 and 2021 as well as some stagnation before then. BF had consistently higher coverage than GF. OF appears to be consistently increasing in achieved coverage. Pink fever had a sharp drop and rebound.
 
 ```{r, fig.cap="Coverage over time by disease. Data is shown in points, trend line is shown with a line and ribbon."}
 knitr::include_graphics("coverage.png")
@@ -43,4 +45,5 @@ knitr::include_graphics("coverage.png")
 
 # Conclusion
 
-There is a notable drop in coverage for years 2020-2021, it is too soon to say when recovery to pre-disruption levels will be achieved. However, for green fever there was a decline in achieved coverage for the years up to the disruption and the overall coverage for blue fever had stagnated. 
+There is a notable drop in coverage for years 2020-2021, it is too soon to say when recovery to pre-disruption levels will be achieved. However, for green fever there was a decline in achieved coverage for the years up to the disruption and the overall coverage for blue fever had stagnated. Orange fever, however, sees consistent improvement since introduction.
+

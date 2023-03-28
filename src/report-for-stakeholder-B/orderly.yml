@@ -7,6 +7,10 @@ artefacts:
       filenames:
         - report.html
 
+parameters:
+  dis:
+    default: "of"
+
 resources:
   - report.Rmd
 
@@ -16,3 +20,4 @@ depends:
     use: 
       summary_cov_stat.rds: summary_cov_stat.rds
       projected_of_2025.png: projected_of_2025.png
+      projected_pf_2025.png: projected_pf_2025.png

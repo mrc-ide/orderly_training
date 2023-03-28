@@ -2,6 +2,11 @@
 options(dplyr.summarise.inform = FALSE)
 
 df <- readRDS("cleaned_data.rds")
+df_pink <- readRDS("cleaned_pink.rds")
+
+# join em up
+df <- df %>%
+  bind_rows(df_pink %>% mutate(disease= "pf"))
 
 # table of data summary stats
 df %>%
@@ -22,8 +27,8 @@ p <- df %>%
   geom_point()+
   geom_smooth()+
   theme_minimal()+
-  scale_fill_met_d("Renoir")+
-  scale_color_met_d("Renoir")+
+  scale_fill_manual(values = c("blue", "green", "orange", "pink"), 
+                    aesthetics = c("fill", "colour"))+
   labs(x = "Date", y = "Coverage", fill = "Disease", colour = "Disease")+
   ylim(0,1)
 
@@ -42,3 +47,16 @@ p2 <- df %>%
   ggtitle("Projected orange fever coverage in 2025")
 
 ggsave(plot = p2, filename = "projected_of_2025.png")
+
+p3 <- df %>%
+  filter(disease == "pf") %>%
+  ggplot()+
+  aes(x = date, y = coverage)+
+  geom_point(colour = "pink")+
+  xlim(as.Date("2010-01-01"), as.Date("2026-01-01"))+
+  stat_smooth(method = "lm",fullrange = TRUE, colour = "pink")+
+  theme_minimal()+
+  labs(x = "Date", y = "Coverage")+
+  ggtitle("Projected pink fever coverage in 2025")
+
+ggsave(plot = p3, filename = "projected_pf_2025.png")

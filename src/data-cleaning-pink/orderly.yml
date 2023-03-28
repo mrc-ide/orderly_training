@@ -1,0 +1,19 @@
+
+script: script.R
+
+
+artefacts: 
+  - data:
+      description: Cleaned pink fever data
+      filenames:
+        - cleaned_pink.rds
+
+packages:
+  - dplyr
+  - readxl
+  - lubridate
+
+resources:
+  - pink_fever_monthly.xlsx
+
+

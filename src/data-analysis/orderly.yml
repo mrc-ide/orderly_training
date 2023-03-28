@@ -53,6 +53,7 @@ artefacts:
       filenames: 
         - coverage.png
         - projected_of_2025.png
+        - projected_pf_2025.png
 
 # An optional name to describe the report in more detail than its
 # directory name (which must be short) but less detail than
@@ -147,3 +148,7 @@ depends:
     id: latest
     use: 
       cleaned_data.rds: cleaned_data.rds
+  data-cleaning-pink:
+    id: latest
+    use: 
+      cleaned_pink.rds: cleaned_pink.rds
