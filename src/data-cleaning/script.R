@@ -1,18 +1,15 @@
 #data cleaning goes here
 
 #read in file, skipping rows without data and ignoring introduction sheet
-df <- readxl::read_xlsx("data_received/data_20240120.xlsx",
-                        sheet = "Data1",
+df <- readxl::read_xlsx("data_received/data_20240125.xlsx",
+                        sheet = "Data",
                         skip = 2)
 
 #tidy names
 df <- df %>% janitor::clean_names()
 
 # make sure all dates are in correct format
-df <- df %>% mutate(date = as.Date(date))
-
-#get coverage in same format for both yf and measles
-df <-  df %>% mutate(gf_coverage = gf_coverage/100)
+df <- df %>% mutate(date = as.Date(date, forma="%d/%m/%Y"))
 
 # make long
 df <- df %>%
