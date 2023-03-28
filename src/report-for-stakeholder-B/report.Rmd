@@ -1,0 +1,27 @@
+---
+title: "Orange fever projections"
+author: "Katy A. M. Gaythorpe"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+# Introduction
+
+This brief report summarises projections of orange fever vaccination coverage given current trajectories. 
+
+# Methods
+
+We fit a linear model to current estimates of orange fever vaccination coverage andproject until 2025. There are substantial limitations of this approach.
+
+# Results
+
+The figure below illustrates the projections of Orange fever vaccination coverage up to 2025. Our results suggest that 60% coverage could be attained.
+
+```{r fig.cap="Figure: Actual (dots) and projected (line and ribbon) vaccination coverage for orange fever"}
+knitr::include_graphics("projected_of_2025.png")
+```
+

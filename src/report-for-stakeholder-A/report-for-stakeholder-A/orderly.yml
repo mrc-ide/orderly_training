@@ -1,0 +1,68 @@
+# This is an example orderly configuration file - edit it to suit your
+# needs.  The fields "script" and "artefacts" are the only
+# ones required (plus whatever your project lists in the root
+# configuration) so they are listed first here.  After that optional
+# fields are listed.  The order does not matter so reorder to suit
+# yourself.
+#
+# The "data" section will typically contain one or more fields with
+# the name corresponding to an R object you want and the value
+# corresponding to the SQL query to pull that data from the database.
+# You can use a filename instead of an inline query.  Run queries to
+# multiple lines using the `>-` yaml syntax.
+#
+#     data:
+#       dat: SELECT field1, field2 FROM table
+#       more: >-
+#         SELECT field1, field2
+#           FROM table1 JOIN table2
+#             ON table1.id = table2.fk
+#       another: from_file.sql
+#
+# If you are writing a report that uses only artefacts from other
+# reports, you can omit this field.
+
+# You must have a script that does something with the data.  This
+# will be a single string and the filename must exist when orderly is
+# run
+script: script.R
+
+# You must list at least one artefact that your report will generate.
+# Each artefact consists of one or more files.  The format is to list
+# the "type" of an artefact (staticgraph, interactivegraph, data,
+# report), then below that a description (free text) and then a
+# filename as either a single file or an array of files
+#
+#     artefacts:
+#       - staticgraph:
+#           description: A graph of things
+#           filenames: mygraph.png
+#       - report:
+#           description: A complex report
+#           filenames:
+#             - report.html
+#             - figures/fig1.png
+#             - figures/fig2.png
+artefacts: 
+  - report:
+      description: Main report
+      filenames:
+        - report.pdf
+
+
+packages:
+ - flextable
+ - dplyr
+
+# sources:
+
+resources:
+  - report.Rmd
+
+
+depends:
+  data-analysis:
+    id: latest
+    use: 
+      summary_cov_stat.rds: summary_cov_stat.rds
+      coverage.png: coverage.png

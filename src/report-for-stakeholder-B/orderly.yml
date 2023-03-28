@@ -1,0 +1,18 @@
+
+script: script.R
+
+artefacts: 
+  - report:
+      description: Output report for stakeholder B
+      filenames:
+        - report.html
+
+resources:
+  - report.Rmd
+
+depends:
+  data-analysis:
+    id: latest
+    use: 
+      summary_cov_stat.rds: summary_cov_stat.rds
+      projected_of_2025.png: projected_of_2025.png

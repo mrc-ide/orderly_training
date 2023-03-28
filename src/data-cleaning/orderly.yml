@@ -17,4 +17,5 @@ packages:
 resources:
   - data_received/data_20240120.xlsx
   - data_received/data_20240125.xlsx
+  - data_received/data_20240127.xlsx
 

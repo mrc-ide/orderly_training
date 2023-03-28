@@ -1,0 +1,45 @@
+---
+title: "Very complex report on vaccination coverage"
+author: "Imperial College"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+set_flextable_defaults(fonts_ignore=TRUE)
+```
+
+# Introduction
+
+In this report we summarise and analyse the vaccination coverage for blue fever, green fever and orange fever, denoted BF, GF and OF respectively. The analysis was commissioned by stakeholders on `r Sys.Date()`.
+
+# Summary
+
+```{r}
+df <- readRDS("summary_cov_stat.rds")
+
+df %>%
+  mutate(disease = ifelse(disease=="bf", "Blue fever", 
+                          ifelse(disease=="gf", "Green fever", 
+                                 ifelse(disease=="of", "Orange fever", NA)))) %>%
+  rename(Disease = disease, `Minimun coverage`=min_cov,
+         `Maximum coverage`=max_cov, 
+         `Mean coverage`=mean_cov) %>%
+  flextable() %>%
+  flextable::set_caption("Summary statistics of coverage.")
+```
+
+In the table above we summarise the data ranges and mean. We note that `r df$disease[which.max(df$mean_cov)]` has the highest mean coverage.
+
+# Temporal trends
+
+The figure below shows the trends over time. Overall we note a drop in coverage in 2020 and 2021 as well as some stagnation before then. BF had consistently higher coverage than GF. OF appears to be consistently increasing in achieved coverage.
+
+```{r, fig.cap="Coverage over time by disease. Data is shown in points, trend line is shown with a line and ribbon."}
+knitr::include_graphics("coverage.png")
+```
+
+# Conclusion
+
+There is a notable drop in coverage for years 2020-2021, it is too soon to say when recovery to pre-disruption levels will be achieved. However, for green fever there was a decline in achieved coverage for the years up to the disruption and the overall coverage for blue fever had stagnated. Orange fever, however, sees consistent improvement since introduction.
