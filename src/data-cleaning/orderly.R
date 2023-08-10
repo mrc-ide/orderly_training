@@ -1,3 +1,14 @@
+orderly2::orderly_strict_mode()
+
+orderly2::orderly_resource("data_received/data_20240120.xlsx")
+
+orderly2::orderly_artefact("cleaned data file", "cleaned_data.rds")
+
+library(readxl)
+library(dplyr)
+library(janitor)
+library(tidyr)
+
 #data cleaning goes here
 
 #read in file, skipping rows without data and ignoring introduction sheet

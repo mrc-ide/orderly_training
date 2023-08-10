@@ -1,17 +1,2 @@
-fields: ~
+minimum_orderly_version: 1.99.0
 
-remote:
-  tutor:
-    driver: orderlyweb::orderlyweb_remote
-    args:
-      host: orderly.dide.ic.ac.uk
-      port: 443
-      token: $VAULT_AUTH_GITHUB_TOKEN
-    primary: true
-    default_branch_only: true
-    default_branch: main
-
-vault:
-  addr: https://vault.dide.ic.ac.uk:8200
-
-minimum_orderly_version: 1.1.26

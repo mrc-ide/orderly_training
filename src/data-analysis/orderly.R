@@ -1,3 +1,16 @@
+orderly2::orderly_strict_mode()
+
+orderly2::orderly_dependency("data-cleaning", "latest", c(cleaned_data.rds = "cleaned_data.rds"))
+
+orderly2::orderly_artefact("All output tables", "summary_cov_stat.rds")
+orderly2::orderly_artefact("All output figures", "coverage.png")
+
+library(dplyr)
+library(ggplot2)
+library(MetBrewer)
+library(tidyr)
+library(lubridate)
+
 # data analysis goes here
 options(dplyr.summarise.inform = FALSE)
 
