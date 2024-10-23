@@ -21,7 +21,8 @@
 # To generate templates without this header, pass template = FALSE to
 # orderly_new(); this header can be safely deleted if you don't need it.
 orderly2::orderly_resource("Export.xlsx")
-
+orderly2::orderly_resource("report.Rmd")
+orderly2::orderly_artefact("report.html")
 #------------------------------------------------------------------------
 library(dplyr)
 library(readxl)
@@ -29,21 +30,7 @@ library(janitor)
 library(tidyr)
 library(ggplot2)
 library(gghighlight)
+library(MetBrewer)
 
-df <- read_xlsx("Export.xlsx")
 
-# some tidying
-df <- df %>% clean_names()
-df <- df %>%
-  pivot_longer(names_to = "year", values_to = "coverage", -c(country_region, antigen, category))
-df <- df %>%
-  mutate(coverage = as.numeric(gsub("%", "", coverage))) %>%
-  mutate(year = as.numeric(gsub("x", "", year))) %>%
-  filter(!is.na(antigen))
-
-# a quick figure
-df %>%
-  ggplot()+
-  aes(x = year, y=coverage, shape=category, colour = antigen)+
-  geom_jitter()+
-  gghighlight(coverage>100)
+rmarkdown::render("report.Rmd")

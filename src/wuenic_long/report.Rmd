@@ -1,0 +1,78 @@
+---
+title: "Output report"
+author: "Katy"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, fig.height = 12, fig.width = 12)
+options(dplyr.summarise.inform=FALSE)
+
+df <- read_xlsx("Export.xlsx")
+
+# some tidying
+df <- df %>% clean_names()
+df <- df %>%
+  pivot_longer(names_to = "year", values_to = "coverage", -c(country_region, antigen, category))
+df <- df %>%
+  mutate(coverage = as.numeric(gsub("%", "", coverage))) %>%
+  mutate(year = as.numeric(gsub("x", "", year))) %>%
+  filter(!is.na(antigen))
+```
+
+In this document we examine the WUENIC coverage estimates for comparison and consistency between a) BCG and Yellow fever vaccine, and b) WUENIC, OFFICIAL and ADMIN estimates of coverage. The coverage is shown below.
+
+```{r fig1, fig.cap="Figure: Coverage from all countries."}
+# a quick figure
+df %>%
+  ggplot()+
+  aes(x = year, y=coverage, colour = antigen)+
+  geom_jitter()+
+  facet_wrap(category~.)+
+  theme_bw()+
+  scale_colour_met_d("Egypt")+
+  theme(legend.position = "bottom")
+```
+
+Next, we examine the correlation between WUENIC and OFFICIAL estimates of coverage for each country and antigen. In the figure below, we highlight three countries as they have negative correlation for Yellow fever vaccine.
+
+```{r fig2, fig.cap="Figure: Comparison of correlations between WUENIC and OFFICIAL coverage. Countries with negative correlation are highlighted."}
+# pivot to make it easy to calculate corr
+df_cor <- df %>% pivot_wider(names_from = category, values_from = coverage) %>%
+  group_by(country_region, antigen) %>%
+  summarise(cor_out = cor(OFFICIAL, WUENIC, use="na.or.complete")) %>%
+  filter(!is.na(cor_out))
+
+# comparison
+df_cor %>%
+  pivot_wider(names_from = antigen, values_from = cor_out) %>%
+  ggplot()+
+  geom_abline(slope=1, colour = "grey80", linewidth=2)+
+  geom_abline(intercept = 0, slope=0, colour="grey80", linewidth=1)+
+  aes(x = BCG, y = `Yellow fever vaccine`)+
+  geom_point(aes(colour = `Yellow fever vaccine`>=BCG), size=5, alpha=0.7)+
+  scale_colour_manual(values=c("pink","yellow"))+
+  gghighlight(`Yellow fever vaccine`<0, label_key = country_region, label_params = list(colour = "black"),
+              unhighlighted_params = list(colour=NULL))+
+  theme_dark()
+```
+
+To understand the negative correlation, we view all countries and focus on any differences for Brazil, Panama and Ecuador. We find that in recent years, where coverage is generally improving in general, there is better alignment between OFFICIAL and WUENIC coverage leading to a negative overall correlation. 
+
+```{r fig3, fig.caption="Figure: All yellow fever coverage for each country."}
+#Q:  what is going on in Panama, Ecuador and Brazil for YF
+
+df %>% filter(antigen == "Yellow fever vaccine") %>%
+  filter(!is.na(coverage), coverage>0) %>%
+  ggplot()+
+  aes(x = year, y = coverage, colour = category)+
+  geom_line(linewidth=2, alpha=0.5)+
+  facet_wrap(country_region~.)+
+  MetBrewer::scale_colour_met_d("Egypt")+
+  theme_minimal()+
+  coord_cartesian(ylim=c(0,200))+
+  theme(legend.position = "bottom")
+
+#A:  increasing alignment between OFFICIAL and WUENIC
+```
